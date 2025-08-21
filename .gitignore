@@ -1,0 +1,13 @@
+# Build directories and files
+build/
+*.o
+*.so
+*.a
+*.out
+*.exe
+
+# IDE files
+.vscode/
+
+# Other common files
+*.log
