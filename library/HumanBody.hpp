@@ -1,0 +1,23 @@
+#ifndef HUMANBODY_HPP
+#define HUMANBODY_HPP
+
+#include "Torso.hpp"
+#include "Leg.hpp"
+#include "Arm.hpp"
+#include "Head.hpp"
+
+class API HumanBody {
+private:
+    Torso torso;
+    Leg left_leg;
+    Leg right_leg;
+    Arm left_arm;
+    Arm right_arm;
+    Head head;
+
+public:
+    HumanBody();
+    void draw(int start_y, int start_x);
+};
+
+#endif // HUMANBODY_HPP

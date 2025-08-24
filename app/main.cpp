@@ -1,7 +1,7 @@
 #include <ncurses.h>
 #include <iostream>
 #include <locale.h>
-#include "../library/BodyPart.hpp"
+#include "../library/HumanBody.hpp"
 
 int main() {
     // Set locale for wide character support
@@ -13,18 +13,15 @@ int main() {
     noecho();
     keypad(stdscr, TRUE);
 
-    // This is crucial for wide character support in ncurses
-    // It tells ncurses to use the locale set above
-    
-    
+    HumanBody body;
+    int start_x = 40; // Starting x-position for the torso
+    int start_y = 20;  // Starting y-position for the torso
+
    
 
-    BodyPart test_part;
-    test_part.load_from_file("../../assets/arm.txt"); // Or whatever file you use
-
     clear();
-    test_part.draw(10, 20);
 
+    body.draw(start_y, start_x);
     refresh();
     getch();
     endwin();

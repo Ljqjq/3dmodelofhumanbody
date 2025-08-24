@@ -4,10 +4,13 @@ cmake_minimum_required(VERSION 3.10)
 # Project name
 project(ncurses_human_body CXX)
 
-# Add the library
+# Find all C++ source files in the 'library' directory and store them in the 'LIB_SOURCES' variable.
+aux_source_directory(library LIB_SOURCES)
+
+# Add the library using the automatically collected source files.
 add_library(
     ncurses_human_body_lib SHARED
-    library/BodyPart.cpp
+    ${LIB_SOURCES}
 )
 
 # Tell the compiler where to find library headers
