@@ -3,6 +3,7 @@
 #include <fstream>
 #include <iostream>
 #include <algorithm>
+#include "ConfigManager.hpp"
 
 BodyPart::BodyPart() {}
 
@@ -11,18 +12,17 @@ BodyPart::BodyPart(const BodyPart& other)
     : ascii_lines(other.ascii_lines),
       width(other.width),
       height(other.height),
-      color_pair_id(other.color_pair_id) {}
+      current_state(other.current_state) {}
 
 // Move Constructor
 BodyPart::BodyPart(BodyPart&& other) noexcept
     : ascii_lines(std::move(other.ascii_lines)),
       width(other.width),
       height(other.height),
-      color_pair_id(other.color_pair_id) {
+      current_state(other.current_state) {
     // Leave the moved-from object in a valid, empty state
     other.width = 0;
     other.height = 0;
-    other.color_pair_id = 0;
 }
 
 // Copy Assignment Operator
@@ -31,7 +31,7 @@ BodyPart& BodyPart::operator=(const BodyPart& other) {
         ascii_lines = other.ascii_lines;
         width = other.width;
         height = other.height;
-        color_pair_id = other.color_pair_id;
+        current_state = other.current_state;
     }
     return *this;
 }
@@ -42,15 +42,15 @@ BodyPart& BodyPart::operator=(BodyPart&& other) noexcept {
         ascii_lines = std::move(other.ascii_lines);
         width = other.width;
         height = other.height;
-        color_pair_id = other.color_pair_id;
+        current_state = other.current_state;
         
         // Leave the moved-from object in a valid, empty state
         other.width = 0;
         other.height = 0;
-        other.color_pair_id = 0;
     }
     return *this;
 }
+
 
 
 void BodyPart::load_from_file(const std::string& filename) {
@@ -74,8 +74,10 @@ void BodyPart::load_from_file(const std::string& filename) {
     width = max_width;
 }
 
-void BodyPart::draw(int start_y, int start_x) const {
-    // Check if a color has been set and if ncurses is in color mode
+void BodyPart::draw(int start_y, int start_x, const ConfigManager& config) const {
+    int color_pair_id = config.get_color_pair(current_state);
+
+    // Apply the color if a valid pair ID exists and colors are supported
     if (color_pair_id > 0 && has_colors()) {
         attron(COLOR_PAIR(color_pair_id));
     }
@@ -94,8 +96,8 @@ void BodyPart::draw(int start_y, int start_x) const {
 int BodyPart::getWidth() const { return width; }
 int BodyPart::getHeight() const { return height; }
 
-void BodyPart::set_color(int color_pair) {
-    color_pair_id = color_pair;
+void BodyPart::set_state(BodyState state) {
+    current_state = state;
 }
 
 const std::vector<std::string>& BodyPart::get_lines() const {

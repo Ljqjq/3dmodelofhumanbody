@@ -5,25 +5,24 @@ HumanBody::HumanBody() {
     // which handles the file loading for each part.
 }
 
-void HumanBody::set_colors(int head_color, int torso_color, int arm_color, int leg_color) {
-    head.set_color(head_color);
-    torso.set_color(torso_color);
-    left_arm.set_color(arm_color);
-    right_arm.set_color(arm_color);
-    left_leg.set_color(leg_color);
-    right_leg.set_color(leg_color);
-}
 
-void HumanBody::draw(int start_y, int start_x) {
+void HumanBody::set_head_state(BodyState state) { head.set_state(state); }
+void HumanBody::set_torso_state(BodyState state) { torso.set_state(state); }
+void HumanBody::set_left_arm_state(BodyState state) { left_arm.set_state(state); }
+void HumanBody::set_right_arm_state(BodyState state) { right_arm.set_state(state); }
+void HumanBody::set_left_leg_state(BodyState state) { left_leg.set_state(state); }
+void HumanBody::set_right_leg_state(BodyState state) { right_leg.set_state(state); }
+
+void HumanBody::draw(int start_y, int start_x, const ConfigManager& config) {
     // Draw Head
-    head.draw(start_y, start_x);
+    head.draw(start_y, start_x, config);
     int head_height = head.getHeight();
     int head_width = head.getWidth();
 
     
     // Draw Torso
     int torso_y = start_y + head_height;
-    torso.draw(torso_y, start_x);
+    torso.draw(torso_y, start_x, config);
     int torso_width = torso.getWidth();
     int torso_height = torso.getHeight();
 
@@ -31,20 +30,20 @@ void HumanBody::draw(int start_y, int start_x) {
     int leg_y = start_y + torso_height + head_height;
     int leg_width = left_leg.getWidth();
     
-    left_leg.draw(leg_y, start_x-leg_width+2);
+    left_leg.draw(leg_y, start_x-leg_width+2, config);
 
     right_leg.mirror();
-    right_leg.draw(leg_y, start_x + leg_width-2);
+    right_leg.draw(leg_y, start_x + leg_width-2, config);
 
     
     // Draw Arms on the sides of the torso
     int arm_y = torso_y;
     
     int arm_width = left_arm.getWidth();
-    left_arm.draw(torso_y, start_x - arm_width);
+    left_arm.draw(torso_y, start_x - arm_width, config);
 
     right_arm.mirror();
-    right_arm.draw(torso_y, start_x + torso_width + 1);
+    right_arm.draw(torso_y, start_x + torso_width + 1, config);
 
 
 

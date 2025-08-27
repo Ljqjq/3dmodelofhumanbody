@@ -4,9 +4,11 @@ cmake_minimum_required(VERSION 3.10)
 # Project name
 project(ncurses_human_body CXX)
 
-# Find all C++ source files in the 'library' directory and store them in the 'LIB_SOURCES' variable.
-aux_source_directory(library LIB_SOURCES)
-
+# Find all C++ source files recursively in the 'library' directory.
+# This avoids manually listing each file and is more robust than aux_source_directory.
+file(GLOB_RECURSE LIB_SOURCES
+    "${PROJECT_SOURCE_DIR}/library/*.cpp"
+)
 # Add the library using the automatically collected source files.
 add_library(
     ncurses_human_body_lib SHARED
