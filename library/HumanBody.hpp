@@ -18,6 +18,7 @@ private:
 public:
     HumanBody();
     void draw(int start_y, int start_x);
+    void set_colors(int head_color, int torso_color, int arm_color, int leg_color);
 };
 
 #endif // HUMANBODY_HPP

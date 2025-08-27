@@ -5,6 +5,15 @@ HumanBody::HumanBody() {
     // which handles the file loading for each part.
 }
 
+void HumanBody::set_colors(int head_color, int torso_color, int arm_color, int leg_color) {
+    head.set_color(head_color);
+    torso.set_color(torso_color);
+    left_arm.set_color(arm_color);
+    right_arm.set_color(arm_color);
+    left_leg.set_color(leg_color);
+    right_leg.set_color(leg_color);
+}
+
 void HumanBody::draw(int start_y, int start_x) {
     // Draw Head
     head.draw(start_y, start_x);
@@ -24,7 +33,7 @@ void HumanBody::draw(int start_y, int start_x) {
     
     left_leg.draw(leg_y, start_x-leg_width+2);
 
-    BodyPart right_leg = left_leg.get_mirrored();
+    right_leg.mirror();
     right_leg.draw(leg_y, start_x + leg_width-2);
 
     
@@ -34,7 +43,7 @@ void HumanBody::draw(int start_y, int start_x) {
     int arm_width = left_arm.getWidth();
     left_arm.draw(torso_y, start_x - arm_width);
 
-    BodyPart right_arm = left_arm.get_mirrored();
+    right_arm.mirror();
     right_arm.draw(torso_y, start_x + torso_width + 1);
 
 
